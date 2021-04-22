@@ -1,1 +1,1 @@
-# vue3-tetris
+# Vue3 + Typescript + Vite

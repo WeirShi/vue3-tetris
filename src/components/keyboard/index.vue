@@ -1,0 +1,237 @@
+<template>
+  <div class="keyboard" :style="{ marginTop: fillingNum + 'px'}">
+    <v-button
+      ref="dom_rotate_el"
+      color="blue"
+      size="s1"
+      arrow="translate(0, 63px)"
+      :top="0"
+      :left="374"
+      :label="rotation"
+      :position="true"
+      :active="keyboard['rotate']"
+    />
+    <v-button
+      ref="dom_down_el"
+      color="blue"
+      size="s1"
+      arrow="translate(0,-71px) rotate(180deg)"
+      :top="180"
+      :left="374"
+      :label="labelDown"
+      :active="keyboard['down']"
+    />
+    <v-button
+      ref="dom_left_el"
+      color="blue"
+      size="s1"
+      arrow="translate(60px, -12px) rotate(270deg)"
+      :top="90"
+      :left="284"
+      :label="labelLeft"
+      :active="keyboard['left']"
+    />
+    <v-button
+      ref="dom_right_el"
+      color="blue"
+      size="s1"
+      arrow="translate(-60px, -12px) rotate(90deg)"
+      :top="90"
+      :left="464"
+      :label="labelRight"
+      :active="keyboard['right']"
+    />
+    <v-button
+      ref="dom_space_el"
+      color="blue"
+      size="s0"
+      :top="100"
+      :left="52"
+      :label="labelDropSpace"
+      :active="keyboard['drop']"
+    />
+    <v-button
+      ref="dom_r_el"
+      color="red"
+      size="s2"
+      :top="0"
+      :left="196"
+      :label="labelResetR"
+      :active="keyboard['reset']"
+    />
+    <v-button
+      ref="dom_s_el"
+      color="green"
+      size="s2"
+      :top="0"
+      :left="106"
+      :label="labelSoundS"
+      :active="keyboard['music']"
+    />
+    <v-button
+      ref="dom_p_el"
+      color="green"
+      size="s2"
+      :top="0"
+      :left="16"
+      :label="labelPauseP"
+      :active="keyboard['pause']"
+    />
+  </div>
+</template>
+
+<script>
+import { defineComponent, ref, watch, computed, onMounted, reactive, toRefs } from 'vue'
+import { useStore } from 'vuex'
+import { i18n, lan } from '@/utils/constant'
+import todo from '@/control/todo'
+import vButton from './button/index.vue'
+
+export default defineComponent({
+  components: {
+    vButton
+  },
+  props: ['filling'],
+  setup(props) {
+    const store = useStore()
+    const fillingNum = ref(0)
+    const doms = reactive({
+      dom_rotate_el: ref(null),
+      dom_down_el: ref(null),
+      dom_left_el: ref(null),
+      dom_right_el: ref(null),
+      dom_space_el: ref(null),
+      dom_r_el: ref(null),
+      dom_p_el: ref(null),
+      dom_s_el: ref(null)
+    })
+
+    watch(props, (newVal, oldVal) => {
+      fillingNum.value = Number(newVal.filling) + 20
+    })
+
+    const keyboard = computed(() => store.state.keyboard)
+    const rotation = computed(() => i18n.rotation[lan])
+    const labelLeft = computed(() => i18n.left[lan])
+    const labelRight = computed(() => i18n.right[lan])
+    const labelDown = computed(() => i18n.down[lan])
+    const labelDropSpace = computed(() => `${i18n.drop[lan]} (SPACE)`)
+    const labelResetR = computed(() => `${i18n.reset[lan]}(R)`)
+    const labelSoundS = computed(() => `${i18n.reset[lan]}(S)`)
+    const labelPauseP = computed(() => `${i18n.reset[lan]}(P)`)
+    
+    
+    onMounted(() => {
+      const touchEventCatch = {} // 对于手机操作, 触发了touchstart, 将作出记录, 不再触发后面的mouse事件
+
+      // 在鼠标触发mousedown时, 移除元素时可以不触发mouseup, 这里做一个兼容, 以mouseout模拟mouseup
+      const mouseDownEventCatch = {}
+      document.addEventListener(
+        'touchstart',
+        e => {
+          if (e.preventDefault) {
+            e.preventDefault()
+          }
+        },
+        true
+      )
+      document.addEventListener('touchend', (e) => {
+        if (e.preventDefault) {
+          e.preventDefault();
+        }
+      }, true);
+
+      // 阻止双指放大
+      document.addEventListener('gesturestart', (event) => {
+        event.preventDefault();
+      });
+      
+      document.addEventListener(
+        'mousedown',
+        e => {
+          if (e.preventDefault) {
+            e.preventDefault()
+          }
+        },
+        true
+      )
+      Object.keys(todo).forEach(key => {
+        const $el = doms[`dom_${key}_el`].$el
+
+        $el.addEventListener(
+          'mousedown',
+          () => {
+            console.log('mousedown')
+            if (touchEventCatch[key] === true) {
+              return
+            }
+            
+            todo[key].down(store)
+            mouseDownEventCatch[key] = true
+          },
+          true
+        )
+        $el.addEventListener(
+          'mouseup',
+          () => {
+            console.log('mouseup')
+            if (touchEventCatch[key] === true) {
+              touchEventCatch[key] = false
+              return
+            }
+            todo[key].up(store)
+            mouseDownEventCatch[key] = false
+          },
+          true
+        )
+        $el.addEventListener(
+          'mouseout',
+          () => {
+            console.log('mouseout')
+            if (mouseDownEventCatch[key] === true) {
+              todo[key].up(store)
+            }
+          },
+          true
+        )
+        $el.addEventListener(
+          'touchstart',
+          () => {
+            console.log('touchstart')
+            touchEventCatch[key] = true
+            todo[key].down(store)
+          },
+          true
+        )
+        $el.addEventListener(
+          'touchend',
+          () => {
+            console.log('touchend')
+            todo[key].up(store)
+          },
+          true
+        )
+      })
+    })
+  
+
+    return {
+      fillingNum,
+      keyboard,
+      rotation,
+      labelLeft,
+      labelRight,
+      labelDown,
+      labelDropSpace,
+      labelResetR,
+      labelSoundS,
+      labelPauseP,
+      ...toRefs(doms)
+    }
+  }
+})
+</script>
+
+<style lang="less" scoped>
+@import './index.less';
+</style>
