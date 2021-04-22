@@ -167,7 +167,6 @@ export default defineComponent({
         $el.addEventListener(
           'mousedown',
           () => {
-            console.log('mousedown')
             if (touchEventCatch[key] === true) {
               return
             }
@@ -180,7 +179,6 @@ export default defineComponent({
         $el.addEventListener(
           'mouseup',
           () => {
-            console.log('mouseup')
             if (touchEventCatch[key] === true) {
               touchEventCatch[key] = false
               return
@@ -193,7 +191,6 @@ export default defineComponent({
         $el.addEventListener(
           'mouseout',
           () => {
-            console.log('mouseout')
             if (mouseDownEventCatch[key] === true) {
               todo[key].up(store)
             }
@@ -203,7 +200,6 @@ export default defineComponent({
         $el.addEventListener(
           'touchstart',
           () => {
-            console.log('touchstart')
             touchEventCatch[key] = true
             todo[key].down(store)
           },
@@ -212,7 +208,6 @@ export default defineComponent({
         $el.addEventListener(
           'touchend',
           () => {
-            console.log('touchend')
             todo[key].up(store)
           },
           true

@@ -28,7 +28,6 @@ export default {
     const titleCenter = computed(() => i18n.titleCenter[lan])
 
     watch(props, (nextProps, oldProps) => {
-      console.log(nextProps, oldProps)
       animate(nextProps)
       if (
         // 只有在游戏进入开始, 或结束时 触发改变
@@ -127,7 +126,6 @@ export default {
     }
 
     onBeforeMount(() => {
-      console.log('onBeforeMount', props)
       animate(props)
     })
 

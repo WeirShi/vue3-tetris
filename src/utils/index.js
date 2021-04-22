@@ -44,6 +44,7 @@ const utils = {
       })
     )
   },
+
   isClear(matrix) {
     // 是否达到消除状态
     const clearLines = []
@@ -96,7 +97,7 @@ const utils = {
     }
     return hiddenProperty.replace(/hidden/i, 'visibilitychange') // 如果属性有前缀, 相应的事件也有前缀
   })(),
-  
+
   isFocus: () => {
     if (!hiddenProperty) {
       // 如果不存在该特性, 认为一直聚焦

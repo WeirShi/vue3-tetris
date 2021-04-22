@@ -168,8 +168,7 @@ const states = {
     let newMatrix = JSON.parse(JSON.stringify(matrix))
     lines.forEach(n => {
       newMatrix.splice(n, 1)
-      // newMatrix = newMatrix.unshift(List(blankLine))
-       newMatrix.unshift(blankLine)
+      newMatrix.unshift(blankLine)
     })
     store.commit('matrix', newMatrix)
     store.commit('moveBlock', { type: state.next })

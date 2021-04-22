@@ -44,7 +44,6 @@ const lockInitState = () => {
   const _state = lastRecord && lastRecord.lock !== undefined
     ? !!lastRecord.lock
     : false
-    console.log('lockInitState', _state)
   return _state;
 }
 

@@ -85,8 +85,6 @@ export default defineComponent({
     const level = computed(() => i18n.level[lan])
     const nextText = computed(() => i18n.next[lan])
 
-    console.log('next', next)
-
     onMounted(() => {
       window.addEventListener('resize', resize, true)
       render()
@@ -137,7 +135,6 @@ export default defineComponent({
           false
         )
       }
-      console.log('lastRecord', lastRecord)
       if (lastRecord) {
         // 读取记录
         if (lastRecord.cur && !lastRecord.pause) {

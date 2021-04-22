@@ -41,7 +41,7 @@ export default {
   },
   setup (props) {
 
-    const clearLines = ref(false)
+    const clearLines = ref([])
     const animateColor = ref(2)
     const isOver = ref(false)
     const overState = ref(null)
@@ -53,25 +53,27 @@ export default {
       setTimeout(() => {
         clearLines.value = clears
         isOver.value = overs
-      }, 16)
+      }, 0)
 
       if (clears && !clearLines.value) {
-        clearAnimate(clears)
-      }
-      if (!clears && overs && !isOver.value) {
+        clearAnimate()
+      } else if (!clears && overs && !isOver.value) {
         over(nextProps)
+      } else {
+        render()
       }
-      render()
     }
-
+        
     const clearAnimate = async () => {
       const anima = callback => {
         return new Promise((resolve) => {
           sleep(100).then(() => {
             animateColor.value = 0
+            render()
             return sleep(100)
           }).then(() => {
             animateColor.value = 2
+            render()
             if (typeof callback === 'function') {
               callback()
             }
@@ -80,12 +82,11 @@ export default {
         })
       }
 
-
-      anima().then(() => {
-        anima(() => {
-          sleep(100).then(() => {
-            states.clearLines(props.propMatrix, clearLines.value)
-          })
+      await anima()
+      await anima()
+      await anima(() => {
+        sleep(100).then(() => {
+          states.clearLines(props.propMatrix, clearLines.value)
         })
       })
     }
@@ -121,7 +122,7 @@ export default {
       const xy = cur && cur.xy
       let matrix = JSON.parse(JSON.stringify(_props.propMatrix))
       const _clearLines = clearLines.value
-
+      console.log('_clearLines', _clearLines)
       if (_clearLines) {
         const _animateColor = animateColor.value
         _clearLines.forEach(index => {
@@ -137,7 +138,6 @@ export default {
             _animateColor,
             _animateColor
           ]
-         
         })
       } else if (shape) {
         shape.forEach((m, k1) =>
@@ -162,23 +162,14 @@ export default {
     }
 
     const render = () => {
-      if (isOver.value) {
-        matrix.value = overState.value
-      } else {
-        matrix.value = getResult()
-      }
+      matrix.value = isOver.value ? overState.value : getResult(props)
     }
 
     watch(props, (newVal = {}, _) => {
-      console.log('watch', props)
       propsChange(newVal)
     }, {
       deep: true,
       immediate: true
-    })
-
-    onMounted(() => {
-      render()
     })
 
     return {
