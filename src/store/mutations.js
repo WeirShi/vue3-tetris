@@ -36,7 +36,6 @@ const mutations = {
     state.max = data
   },
   reset(state, data) {
-    console.log('state reset', data)
     state.reset = data
   },
   drop(state, data) {

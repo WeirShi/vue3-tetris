@@ -1,13 +1,16 @@
 <template>
   <div class="next">
     <div v-for="(item, index) in block" :key="index">
-      <b :class="e ? 'c' : ''" v-for="(e, k2) in item" :key="k2" />
+      <b :class="e ? 'c' : ''"
+        v-for="(e, k2) in item"
+        :key="k2"
+      />
     </div>
   </div>
 </template>
 
 <script>
-import { watch, ref } from 'vue';
+import { watch, ref, onMounted } from 'vue';
 import { blockShape } from '@/utils/constant'
 const xy = {
   // 方块在下一个中的坐标
@@ -24,28 +27,31 @@ export default {
   props: {
     data: {
       type: String,
-      default: 'I'
+      default: ''
     }
   },
   setup (props) {
     const block = ref(empty)
 
-    watch(props, (newVal, _) => {
-      build(newVal.data)
-    })
-
     const build = (type) => {
       const shape = blockShape[type]
-      const block = empty.map(e => [...e])
+      const _block = empty.map(e => [...e])
       shape.forEach((m, k1) => {
         m.forEach((n, k2) => {
           if (n) {
-            block[k1 + xy[type][0]][k2 + xy[type][1]] = 1
+            _block[k1 + xy[type][0]][k2 + xy[type][1]] = 1
           }
         })
       })
-      block.value = block
+      block.value = _block
     }
+
+    watch(props, (newVal, _) => {
+      build(newVal.data)
+    }, {
+      deep: true,
+      immediate: true
+    })
 
     return {
       block

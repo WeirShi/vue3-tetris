@@ -23,8 +23,10 @@ const sleep = (delay) => {
 export default {
   props: {
     cur: {
-      default: false,
-      type: Boolean
+      default: () => {
+        return null
+      },
+      type: Object
     },
     reset: {
       default: false,
@@ -45,24 +47,21 @@ export default {
     const overState = ref(null)
     const matrix = ref([])
 
-    watch(props, (newVal = {}, _) => {
-      propsChange(newVal)
-    }, {
-      deep: true
-    })
-
     const propsChange = async (nextProps) => {
       const clears = isClear(nextProps.propMatrix)
       const overs = nextProps.reset
-      await sleep(16)
-      clearLines.value = clears
-      isOver.value = overs
+      setTimeout(() => {
+        clearLines.value = clears
+        isOver.value = overs
+      }, 16)
+
       if (clears && !clearLines.value) {
         clearAnimate(clears)
       }
       if (!clears && overs && !isOver.value) {
         over(nextProps)
       }
+      render()
     }
 
     const clearAnimate = async () => {
@@ -85,7 +84,7 @@ export default {
       anima().then(() => {
         anima(() => {
           sleep(100).then(() => {
-            states.clearLines(propMatrix.value, clearLines.value)
+            states.clearLines(props.propMatrix, clearLines.value)
           })
         })
       })
@@ -98,17 +97,17 @@ export default {
         if (index <= 19) {
           _overState[19 - index]=fillLine
         } else if (index >= 20 && index <= 39) {
-          _overState[index - 20]=blankLine
+          _overState[index - 20] = blankLine
         } else {
           states.overEnd()
           return
         }
         overState.value = [..._overState]
+        render()
       }
 
       for (let i = 0; i <= 40; i++) {
-        await sleep(40 * (i + 1))
-        exLine.bind(null, i)
+        setTimeout(exLine.bind(null, i), 40 * (i + 1))
       }
     }
 
@@ -122,20 +121,21 @@ export default {
       const xy = cur && cur.xy
       let matrix = JSON.parse(JSON.stringify(_props.propMatrix))
       const _clearLines = clearLines.value
+
       if (_clearLines) {
-        const animateColor = animateColor.value
+        const _animateColor = animateColor.value
         _clearLines.forEach(index => {
           matrix[index]=[
-            animateColor,
-            animateColor,
-            animateColor,
-            animateColor,
-            animateColor,
-            animateColor,
-            animateColor,
-            animateColor,
-            animateColor,
-            animateColor
+            _animateColor,
+            _animateColor,
+            _animateColor,
+            _animateColor,
+            _animateColor,
+            _animateColor,
+            _animateColor,
+            _animateColor,
+            _animateColor,
+            _animateColor
           ]
          
         })
@@ -161,19 +161,25 @@ export default {
       return matrix
     }
 
-    onMounted(() => {
-      render()
-    })
-
     const render = () => {
       if (isOver.value) {
         matrix.value = overState.value
       } else {
         matrix.value = getResult()
       }
-
-      console.log(isOver.value)
     }
+
+    watch(props, (newVal = {}, _) => {
+      console.log('watch', props)
+      propsChange(newVal)
+    }, {
+      deep: true,
+      immediate: true
+    })
+
+    onMounted(() => {
+      render()
+    })
 
     return {
       matrix

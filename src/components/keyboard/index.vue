@@ -74,7 +74,7 @@
       size="s2"
       :top="0"
       :left="16"
-      :label="labelPauseP"
+      :label="start ? labelStartS : labelPauseP"
       :active="keyboard['pause']"
     />
   </div>
@@ -91,10 +91,11 @@ export default defineComponent({
   components: {
     vButton
   },
-  props: ['filling'],
+  props: ['filling', 'cur'],
   setup(props) {
     const store = useStore()
     const fillingNum = ref(0)
+    const start = ref(false)
     const doms = reactive({
       dom_rotate_el: ref(null),
       dom_down_el: ref(null),
@@ -106,8 +107,12 @@ export default defineComponent({
       dom_s_el: ref(null)
     })
 
-    watch(props, (newVal, oldVal) => {
+    watch(props, (newVal, _) => {
       fillingNum.value = Number(newVal.filling) + 20
+      start.value = !newVal.cur
+    }, {
+      deep: true,
+      immediate: true
     })
 
     const keyboard = computed(() => store.state.keyboard)
@@ -117,8 +122,9 @@ export default defineComponent({
     const labelDown = computed(() => i18n.down[lan])
     const labelDropSpace = computed(() => `${i18n.drop[lan]} (SPACE)`)
     const labelResetR = computed(() => `${i18n.reset[lan]}(R)`)
-    const labelSoundS = computed(() => `${i18n.reset[lan]}(S)`)
-    const labelPauseP = computed(() => `${i18n.reset[lan]}(P)`)
+    const labelSoundS = computed(() => `${i18n.sound[lan]}(S)`)
+    const labelPauseP = computed(() => `${i18n.pause[lan]}(P)`)
+    const labelStartS = computed(() => `${i18n.start[lan]}(S)`)
     
     
     onMounted(() => {
@@ -216,6 +222,7 @@ export default defineComponent({
   
 
     return {
+      start,
       fillingNum,
       keyboard,
       rotation,
@@ -226,6 +233,7 @@ export default defineComponent({
       labelResetR,
       labelSoundS,
       labelPauseP,
+      labelStartS,
       ...toRefs(doms)
     }
   }

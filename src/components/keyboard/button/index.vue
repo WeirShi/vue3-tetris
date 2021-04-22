@@ -9,6 +9,7 @@
 </template>
 
 <script>
+import { onMounted } from 'vue'
 export default {
   name: 'vButton',
   props: [
@@ -20,10 +21,7 @@ export default {
     'label',
     'position',
     'arrow'
-  ],
-  setup () {
-    return {}
-  }
+  ]
 }
 </script>
 

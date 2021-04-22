@@ -57,11 +57,12 @@ const utils = {
     }
     return clearLines
   },
+
   isOver(matrix) {
     // 游戏是否结束, 第一行落下方块为依据
-  
     return matrix[0].some(n => !!n)
   },
+
   subscribeRecord(store) {
     // 将状态记录到 localStorage
     store.subscribe(() => {
@@ -78,6 +79,7 @@ const utils = {
       window.localStorage.setItem(StorageKey, data)
     })
   },
+
   isMobile() {
     // 判断是否为移动端
     const ua = navigator.userAgent
@@ -85,15 +87,16 @@ const utils = {
     const iphone = ua.indexOf('iPhone') > -1
     const ipod = ua.indexOf('iPod') > -1
     const ipad = ua.indexOf('iPad') > -1
-    const nokiaN = ua.indexOf('NokiaN') > -1
-    return android || iphone || ipod || ipad || nokiaN
+    return android || iphone || ipod || ipad
   },
+
   visibilityChangeEvent: (() => {
     if (!hiddenProperty) {
       return false
     }
     return hiddenProperty.replace(/hidden/i, 'visibilitychange') // 如果属性有前缀, 相应的事件也有前缀
   })(),
+  
   isFocus: () => {
     if (!hiddenProperty) {
       // 如果不存在该特性, 认为一直聚焦

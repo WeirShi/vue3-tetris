@@ -23,7 +23,7 @@
         </div>
       </div>
     </div>
-    <Keyboard :filling='filling' />
+    <Keyboard :filling='filling' :cur="!!cur" />
     <Guide/>
   </div>
 </template>
@@ -84,6 +84,8 @@ export default defineComponent({
     const pContent = computed(() => cur.value ? i18n.cleans[lan] : i18n.startLine[lan])
     const level = computed(() => i18n.level[lan])
     const nextText = computed(() => i18n.next[lan])
+
+    console.log('next', next)
 
     onMounted(() => {
       window.addEventListener('resize', resize, true)

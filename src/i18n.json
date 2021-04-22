@@ -62,6 +62,10 @@
       "cn": "暂停",
       "en": "Pause"
     },
+    "start": {
+      "cn": "开始",
+      "en": "Start"
+    },
     "sound": {
       "cn": "音效",
       "en": "Sound"
