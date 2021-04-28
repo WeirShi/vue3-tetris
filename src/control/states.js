@@ -1,5 +1,4 @@
 import store from '@/store'
-// console.log('store', store)
 import { want, isClear, isOver } from '@/utils'
 import {
   speeds,

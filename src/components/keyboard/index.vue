@@ -74,7 +74,7 @@
       size="s2"
       :top="0"
       :left="16"
-      :label="start ? labelStartS : labelPauseP"
+      :label="(start || isPause) ? labelStartS : labelPauseP"
       :active="keyboard['pause']"
     />
   </div>
@@ -111,10 +111,10 @@ export default defineComponent({
       fillingNum.value = Number(newVal.filling) + 20
       start.value = !newVal.cur
     }, {
-      deep: true,
-      immediate: true
+      deep: true
     })
 
+    const isPause = computed(() => store.state.pause)
     const keyboard = computed(() => store.state.keyboard)
     const rotation = computed(() => i18n.rotation[lan])
     const labelLeft = computed(() => i18n.left[lan])
@@ -139,18 +139,18 @@ export default defineComponent({
             e.preventDefault()
           }
         },
-        true
+        {passive: false}
       )
       document.addEventListener('touchend', (e) => {
         if (e.preventDefault) {
           e.preventDefault();
         }
-      }, true);
+      }, { passive: false });
 
       // 阻止双指放大
       document.addEventListener('gesturestart', (event) => {
         event.preventDefault();
-      });
+      }, { passive: false });
       
       document.addEventListener(
         'mousedown',
@@ -221,6 +221,7 @@ export default defineComponent({
       fillingNum,
       keyboard,
       rotation,
+      isPause,
       labelLeft,
       labelRight,
       labelDown,

@@ -33,9 +33,7 @@ export default {
       type: Boolean
     },
     propMatrix: {
-      default: () => {
-        return []
-      },
+      default: () => [],
       type: Array
     }
   },
@@ -56,10 +54,14 @@ export default {
       }, 0)
 
       if (clears && !clearLines.value) {
+        console.log("----", 1)
         clearAnimate()
       } else if (!clears && overs && !isOver.value) {
+        console.log("----", 2)
         over(nextProps)
+        
       } else {
+        clearLines.value = false
         render()
       }
     }
@@ -126,18 +128,7 @@ export default {
       if (_clearLines) {
         const _animateColor = animateColor.value
         _clearLines.forEach(index => {
-          matrix[index]=[
-            _animateColor,
-            _animateColor,
-            _animateColor,
-            _animateColor,
-            _animateColor,
-            _animateColor,
-            _animateColor,
-            _animateColor,
-            _animateColor,
-            _animateColor
-          ]
+          matrix[index] = new Array(10).fill(_animateColor)
         })
       } else if (shape) {
         shape.forEach((m, k1) =>

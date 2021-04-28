@@ -7,10 +7,11 @@ import { blankMatrix, lastRecord, maxPoint, blockType } from '@/utils/constant'
 import Block from '@/utils/block'
 import { hasWebAudioAPI } from '@/utils/music'
 
+const _lastRecord = lastRecord
 
 const clearLinesInitState = () => {
-  const _state = (lastRecord && !isNaN(parseInt(lastRecord.clearLines, 10)))
-        ? parseInt(lastRecord.clearLines, 10)
+  const _state = (_lastRecord && !isNaN(parseInt(_lastRecord.clearLines, 10)))
+        ? parseInt(_lastRecord.clearLines, 10)
         : 0
   if (_state < 0) {
     _state = 0
@@ -19,11 +20,11 @@ const clearLinesInitState = () => {
 }
 
 const curInitState = () => {
-  if (!lastRecord || !lastRecord.cur) {
+  if (!_lastRecord || !_lastRecord.cur) {
     // 无记录 或 有记录 但方块为空, 返回 null
     return null
   }
-  const cur = lastRecord.cur
+  const cur = _lastRecord.cur
   const option = {
     type: cur.type,
     rotateIndex: cur.rotateIndex,
@@ -34,31 +35,31 @@ const curInitState = () => {
 }
 
 const dropInitState = () => {
-  const _state = lastRecord && lastRecord.drop !== undefined
-    ? !!lastRecord.drop
+  const _state = _lastRecord && _lastRecord.drop !== undefined
+    ? !!_lastRecord.drop
     : false
   return _state
 }
 
 const lockInitState = () => {
-  const _state = lastRecord && lastRecord.lock !== undefined
-    ? !!lastRecord.lock
+  const _state = _lastRecord && _lastRecord.lock !== undefined
+    ? !!_lastRecord.lock
     : false
   return _state;
 }
 
 
 const matrixInitState = () => {
-  const _state = lastRecord && Array.isArray(lastRecord.matrix)
-    ? lastRecord.matrix
+  const _state = _lastRecord && Array.isArray(_lastRecord.matrix)
+    ? _lastRecord.matrix
     : blankMatrix
 
   return _state
 }
 
 const maxInitState = () => {
-  const _state = lastRecord && !isNaN(parseInt(lastRecord.max, 10))
-    ? parseInt(lastRecord.max, 10)
+  const _state = _lastRecord && !isNaN(parseInt(_lastRecord.max, 10))
+    ? parseInt(_lastRecord.max, 10)
     : 0
   if (_state < 0) {
     _state = 0
@@ -70,8 +71,8 @@ const maxInitState = () => {
 }
 
 const musicInitState = () => {
-  const _state = lastRecord && lastRecord.music !== undefined
-    ? !!lastRecord.music
+  const _state = _lastRecord && _lastRecord.music !== undefined
+    ? !!_lastRecord.music
     : true
   if (!hasWebAudioAPI.data) {
     _state = false
@@ -81,22 +82,22 @@ const musicInitState = () => {
 }
 
 const nextInitState = () => {
-  const _state = lastRecord && blockType.indexOf(lastRecord.next) !== -1
-    ? lastRecord.next
+  const _state = _lastRecord && blockType.indexOf(_lastRecord.next) !== -1
+    ? _lastRecord.next
     : getNextType()
   return _state
 }
 
 const pauseInitState = () => {
-  const _state = lastRecord && lastRecord.pause !== undefined
-    ? !!lastRecord.pause
+  const _state = _lastRecord && _lastRecord.pause !== undefined
+    ? !!_lastRecord.pause
     : false
   return _state
 } 
 
 const pointsInitState = () => {
-  const _state = lastRecord && !isNaN(parseInt(lastRecord.points, 10))
-    ? parseInt(lastRecord.points, 10)
+  const _state = _lastRecord && !isNaN(parseInt(_lastRecord.points, 10))
+    ? parseInt(_lastRecord.points, 10)
     : 0
   if (_state < 0) {
     _state = 0
@@ -108,8 +109,8 @@ const pointsInitState = () => {
 }
 
 const speedRunInitState = () => {
-  const _state = lastRecord && !isNaN(parseInt(lastRecord.speedRun, 10))
-    ? parseInt(lastRecord.speedRun, 10)
+  const _state = _lastRecord && !isNaN(parseInt(_lastRecord.speedRun, 10))
+    ? parseInt(_lastRecord.speedRun, 10)
     : 1
   if (_state < 1 || _state > 6) {
     _state = 1
@@ -118,8 +119,8 @@ const speedRunInitState = () => {
 }
 
 const speedStartInitState = () => {
-  const _state = lastRecord && !isNaN(parseInt(lastRecord.speedStart, 10))
-    ? parseInt(lastRecord.speedStart, 10)
+  const _state = _lastRecord && !isNaN(parseInt(_lastRecord.speedStart, 10))
+    ? parseInt(_lastRecord.speedStart, 10)
     : 1
   if (_state < 1 || _state > 6) {
     _state = 1
@@ -128,8 +129,8 @@ const speedStartInitState = () => {
 }
 
 const startLinesInitState = () => {
-  const _state = lastRecord && !isNaN(parseInt(lastRecord.startLines, 10))
-    ? parseInt(lastRecord.startLines, 10)
+  const _state = _lastRecord && !isNaN(parseInt(_lastRecord.startLines, 10))
+    ? parseInt(_lastRecord.startLines, 10)
     : 0
   if (_state < 0 || _state > 10) {
     _state = 0
@@ -139,16 +140,17 @@ const startLinesInitState = () => {
 }
 
 const resetInitState = () => {
-  const _state = lastRecord && lastRecord.reset
-    ? !!lastRecord.reset
+  const _state = _lastRecord && _lastRecord.reset
+    ? !!_lastRecord.reset
     : false
   return _state
 }
 
 const state = {
+
+  matrix: matrixInitState(),
   music: musicInitState(),
   pause: pauseInitState(),
-  matrix: matrixInitState(),
   next: nextInitState(),
   cur: curInitState(),
   speedStart: speedStartInitState(),
@@ -159,6 +161,8 @@ const state = {
   max: maxInitState(),
   reset: resetInitState(),
   drop: dropInitState(),
+  lock: lockInitState(),
+  focus: isFocus(),
   keyboard: {
     drop: false,
     down: false,
@@ -168,10 +172,7 @@ const state = {
     reset: false,
     music: false,
     pause: false
-  },
-
-  lock: lockInitState(),
-  focus: isFocus()
+  }
 }
 
 const store = createStore({

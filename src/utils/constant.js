@@ -50,7 +50,7 @@ export const StorageKey = 'VUE3_TETRIS'
 export const lastRecord = (() => {
   let data = window.localStorage.getItem(StorageKey)
   if (!data) {
-    return false
+    return null
   }
   try {
     if (window.btoa) {
@@ -62,7 +62,7 @@ export const lastRecord = (() => {
     if (window.console || window.console.error) {
       window.console.error('读取记录错误:', e)
     }
-    return false
+    return null
   }
   return data
 })()

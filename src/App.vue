@@ -5,6 +5,7 @@
       <div class="screen">
         <div class="panel">
           <Matrix :propMatrix="matrix" :cur="cur" :reset="reset" />
+          <!-- <Matrix /> -->
           <Logo :cur="!!cur" :reset="reset" />
           <div class="state">
             <Point :cur="!!cur" :max="max" :point="points" />
@@ -135,11 +136,11 @@ export default defineComponent({
           false
         )
       }
+      console.log("lastRecord ----", lastRecord)
       if (lastRecord) {
         // 读取记录
         if (lastRecord.cur && !lastRecord.pause) {
           // 拿到上一次游戏的状态, 如果在游戏中且没有暂停, 游戏继续
-          const speedRun = this.$store.state.speedRun
           let timeout = speeds[speedRun - 1] / 2 // 继续时, 给予当前下落速度一半的停留时间
           // 停留时间不小于最快速的速度
           timeout =
@@ -150,9 +151,12 @@ export default defineComponent({
         }
 
         if (!lastRecord.cur) {
+          
+          // 初始化界面
           states.overStart()
         }
       } else {
+        // 初始化界面
         states.overStart()
       }
     }

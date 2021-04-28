@@ -66,8 +66,8 @@ const utils = {
 
   subscribeRecord(store) {
     // 将状态记录到 localStorage
-    store.subscribe(() => {
-      let data = store.state
+    store.subscribe((_, state) => {
+      let data = state
       if (data.lock) {
         // 当状态为锁定, 不记录
         return
