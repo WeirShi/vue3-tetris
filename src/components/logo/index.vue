@@ -31,7 +31,7 @@ export default {
       animate(nextProps)
       if (
         // 只有在游戏进入开始, 或结束时 触发改变
-        ([oldProps.cur, nextProps.cur].indexOf(false) !== -1 &&
+        ([oldProps.cur, nextProps.cur].includes(false) &&
           oldProps.cur !== nextProps.cur) ||
         oldProps.reset !== nextProps.reset
       ) {
@@ -66,63 +66,52 @@ export default {
 
       const eyes = (func, delay1, delay2) => {
         // 龙在眨眼睛
-        return new Promise((resolve) => {
-          sleep(delay1).then(() => {
-            className.value = m + 2
-            return sleep(delay2)
-          }).then(() => {
-            className.value = m + 1
-            func && func()
-            return resolve()
-          })
+        return new Promise(async resolve => {
+          await sleep(delay1)
+          className.value = m + 2
+          await sleep(delay2)
+          className.value = m + 1
+          func && func()
+          return resolve()
         })
       }
 
-      const run = func => {
+      const run = async func => {
         // 开始跑步
-        sleep(100).then(() => {
-          className.value = m + 4
-          return sleep(100)
-        }).then(() => {
-            className.value = m + 3;
-            count++
-            if (count === 10 || count === 20 || count === 30) {
-              m = m === 'r' ? 'l' : 'r'
-            }
-            if (count < 40) {
-              run(func)
-              return
-            }
-            className.value = m + 1
-            sleep(4000).then(func)
-        })
+        await sleep(100)
+        className.value = m + 4
+        await sleep(100)
+        className.value = m + 3;
+        count++
+        if (count === 10 || count === 20 || count === 30) {
+          m = m === 'r' ? 'l' : 'r'
+        }
+        if (count < 40) {
+          run(func)
+          return
+        }
+        className.value = m + 1
+        await sleep(4000)
+        func && func()
       }
 
-      const dra = () => {
+      const dra = async () => {
         count = 0
-        eyes(null, 1000, 1500).then(() => {
-          return eyes(null, 150, 150)
-        }).then(() => {
-          return eyes(() => {
+        await eyes(null, 1000, 1500)
+        await eyes(null, 150, 150)
+        await eyes(() => {
             className.value = m + 2
             run(dra)
           }, 150, 150)
-        })
       }
 
       isShow(null, false)
       await sleep(150)
-        .then(() => {
-          isShow(null, true)
-          return sleep(150)
-        })
-        .then(() => {
-          isShow(null, false)
-          return sleep(150)
-        })
-        .then(() => {
-          return isShow(dra(), true)
-        })
+      isShow(null, true)
+      await sleep(150)
+      isShow(null, false)
+      await sleep(150)
+      isShow(dra(), true)
     }
 
     onBeforeMount(() => {
