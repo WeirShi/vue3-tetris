@@ -3,9 +3,7 @@ import event from "@/utils/event";
 import states from "../states";
 import { music } from "@/utils/music";
 const down = store => {
-  console.log('store', store)
-  store.commit("key_down", true);
-  console.log(store.state.cur)
+  store.commit("key_down", true)
   if (store.state.cur !== null) {
     event.down({
       key: "down",
@@ -57,7 +55,6 @@ const down = store => {
       begin: 200,
       interval: 100,
       callback: () => {
-        console.log('lock', store.state.lock)
         if (store.state.lock) {
           return;
         }

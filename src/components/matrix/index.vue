@@ -54,12 +54,9 @@ export default {
       }, 0)
 
       if (clears && !clearLines.value) {
-        console.log("----", 1)
         clearAnimate()
       } else if (!clears && overs && !isOver.value) {
-        console.log("----", 2)
         over(nextProps)
-        
       } else {
         clearLines.value = false
         render()
@@ -124,7 +121,6 @@ export default {
       const xy = cur && cur.xy
       let matrix = JSON.parse(JSON.stringify(_props.propMatrix))
       const _clearLines = clearLines.value
-      console.log('_clearLines', _clearLines)
       if (_clearLines) {
         const _animateColor = animateColor.value
         _clearLines.forEach(index => {

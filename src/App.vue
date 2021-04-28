@@ -136,7 +136,6 @@ export default defineComponent({
           false
         )
       }
-      console.log("lastRecord ----", lastRecord)
       if (lastRecord) {
         // 读取记录
         if (lastRecord.cur && !lastRecord.pause) {
