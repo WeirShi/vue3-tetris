@@ -1,7 +1,6 @@
 import event from '@/utils/event'
 
 const down = store => {
-  store.commit('key_music', true)
   if (store.state.lock) {
     return
   }
@@ -12,13 +11,11 @@ const down = store => {
       if (store.state.lock) {
         return
       }
-      store.commit('music', !store.state.music)
     }
   })
 }
 
 const up = store => {
-  store.commit('key_music', false)
   event.up({
     key: 's'
   })

@@ -1,7 +1,6 @@
 import { want } from '@/utils'
 import event from '@/utils/event'
 import states from '../states'
-import { music } from '@/utils/music'
 const down = store => {
   store.commit('key_rotate', true)
   if (store.state.cur !== null) {
@@ -20,9 +19,6 @@ const down = store => {
         if (cur === null) {
           return
         }
-        if (music.rotate) {
-          music.rotate()
-        }
         const next = cur.rotate()
         if (want(next, state.matrix)) {
           store.commit('moveBlock', next)
@@ -37,9 +33,6 @@ const down = store => {
       callback: () => {
         if (store.state.lock) {
           return
-        }
-        if (music.move) {
-          music.move()
         }
         const state = store.state
         const cur = state.cur

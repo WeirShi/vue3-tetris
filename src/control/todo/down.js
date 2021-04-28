@@ -1,7 +1,6 @@
 import { want } from "@/utils";
 import event from "@/utils/event";
 import states from "../states";
-import { music } from "@/utils/music";
 const down = store => {
   store.commit("key_down", true)
   if (store.state.cur !== null) {
@@ -14,9 +13,6 @@ const down = store => {
         if (state.lock) {
           return;
         }
-        if (music.move) {
-          music.move();
-        }
         const cur = state.cur;
         if (cur === null) {
           return;
@@ -28,7 +24,6 @@ const down = store => {
         const next = cur.fall();
         if (want(next, state.matrix)) {
           store.commit("moveBlock", next);
-          // store.dispatch(actions.moveBlock(next));
           states.auto();
         } else {
           let matrix = JSON.parse(JSON.stringify(state.matrix));
@@ -62,9 +57,6 @@ const down = store => {
         const cur = state.cur;
         if (cur) {
           return;
-        }
-        if (music.move) {
-          music.move();
         }
         let startLines = state.startLines;
         startLines = startLines - 1 < 0 ? 10 : startLines - 1;

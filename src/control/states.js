@@ -7,7 +7,6 @@ import {
   clearPoints,
   eachLines
 } from '@/utils/constant'
-import { music } from '@/utils/music'
 
 const getStartMatrix = startLines => {
   // 生成startLines
@@ -54,9 +53,6 @@ const states = {
 
   // 游戏开始
   start: () => {
-    if (music.start) {
-      music.start()
-    }
     const state = store.state
     states.dispatchPoints(0)
     store.commit('speedRun', state.speedStart)
@@ -118,15 +114,9 @@ const states = {
     states.dispatchPoints(addPoints)
 
     if (isClear(matrix)) {
-      if (music.clear) {
-        music.clear()
-      }
       return
     }
     if (isOver(matrix)) {
-      if (music.gameover) {
-        music.gameover()
-      }
       states.overStart()
       return
     }

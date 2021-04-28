@@ -5,7 +5,6 @@
       <div class="screen">
         <div class="panel">
           <Matrix :propMatrix="matrix" :cur="cur" :reset="reset" />
-          <!-- <Matrix /> -->
           <Logo :cur="!!cur" :reset="reset" />
           <div class="state">
             <Point :cur="!!cur" :max="max" :point="points" />
@@ -16,7 +15,6 @@
             <p>{{nextText}}</p>
             <Next :data="next" />
             <div class="bottom">
-              <Music :data="music" />
               <Pause :data="pause" />
               <Number :propTime="true" />
             </div> 
@@ -44,7 +42,6 @@ import Next from './components/next/index.vue'
 import Number from './components/number/index.vue'
 import Pause from './components/pause/index.vue'
 import Point from './components/point/index.vue'
-import Music from './components/music/index.vue'
 
 export default defineComponent({
   name: 'App',
@@ -57,8 +54,7 @@ export default defineComponent({
     Next,
     Number,
     Pause,
-    Point,
-    Music
+    Point
   },
   setup() {
     const store = useStore()
@@ -69,7 +65,6 @@ export default defineComponent({
 
     const matrix = computed(() => store.state.matrix)
     const keyboard = computed(() => store.state.keyboard)
-    const music = computed(() => store.state.music)
     const pause = computed(() => store.state.pause)
     const next = computed(() => store.state.next)
     const cur = computed(() => store.state.cur)
@@ -168,7 +163,6 @@ export default defineComponent({
       h,
       matrix,
       keyboard,
-      music,
       pause,
       next,
       cur,

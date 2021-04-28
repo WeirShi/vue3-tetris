@@ -5,7 +5,6 @@ import { getNextType } from '@/utils'
 import { isFocus } from '@/utils'
 import { blankMatrix, lastRecord, maxPoint, blockType } from '@/utils/constant'
 import Block from '@/utils/block'
-import { hasWebAudioAPI } from '@/utils/music'
 
 const _lastRecord = lastRecord
 
@@ -65,17 +64,6 @@ const maxInitState = () => {
     _state = 0
   } else if (_state > maxPoint) {
     _state = maxPoint
-  }
-
-  return _state
-}
-
-const musicInitState = () => {
-  const _state = _lastRecord && _lastRecord.music !== undefined
-    ? !!_lastRecord.music
-    : true
-  if (!hasWebAudioAPI.data) {
-    _state = false
   }
 
   return _state
@@ -149,7 +137,6 @@ const resetInitState = () => {
 const state = {
 
   matrix: matrixInitState(),
-  music: musicInitState(),
   pause: pauseInitState(),
   next: nextInitState(),
   cur: curInitState(),
@@ -170,7 +157,6 @@ const state = {
     right: false,
     rotate: false,
     reset: false,
-    music: false,
     pause: false
   }
 }

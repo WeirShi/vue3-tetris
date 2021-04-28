@@ -1,7 +1,6 @@
 import { want } from "@/utils";
 import event from "@/utils/event";
 import states from "../states";
-import { music } from "@/utils/music";
 const down = store => {
   store.commit("key_drop", true);
   event.down({
@@ -18,9 +17,6 @@ const down = store => {
         if (state.pause) {
           states.pause(false);
           return;
-        }
-        if (music.fall) {
-          music.fall();
         }
         let index = 0;
         let bottom = cur.fall(index);

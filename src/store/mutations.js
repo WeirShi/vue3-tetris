@@ -44,9 +44,6 @@ const mutations = {
   pause(state, data) {
     state.pause = data
   },
-  music(state, data) {
-    state.music = data
-  },
   focus(state, data) {
     state.focus = data
   },
@@ -67,9 +64,6 @@ const mutations = {
   },
   key_reset(state, data) {
     state.keyboard['reset'] = data
-  },
-  key_music(state, data) {
-    state.keyboard['music'] = data
   },
   key_pause(state, data) {
     state.keyboard['pause'] = data

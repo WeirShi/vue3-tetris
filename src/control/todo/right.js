@@ -2,7 +2,6 @@ import { want } from '@/utils'
 import event from '@/utils/event'
 import states from '../states'
 import { speeds, delays } from '@/utils/constant'
-import { music } from '@/utils/music'
 const down = store => {
   store.commit('key_right', true)
   event.down({
@@ -13,9 +12,6 @@ const down = store => {
       const state = store.state
       if (state.lock) {
         return
-      }
-      if (music.move) {
-        music.move()
       }
       const cur = state.cur
       if (cur !== null) {

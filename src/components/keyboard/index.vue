@@ -55,25 +55,16 @@
       color="red"
       size="s2"
       :top="0"
-      :left="196"
+      :left="140"
       :label="labelResetR"
       :active="keyboard['reset']"
-    />
-    <v-button
-      ref="dom_s_el"
-      color="green"
-      size="s2"
-      :top="0"
-      :left="106"
-      :label="labelSoundS"
-      :active="keyboard['music']"
     />
     <v-button
       ref="dom_p_el"
       color="green"
       size="s2"
       :top="0"
-      :left="16"
+      :left="40"
       :label="(start || isPause) ? labelStartS : labelPauseP"
       :active="keyboard['pause']"
     />
@@ -103,8 +94,7 @@ export default defineComponent({
       dom_right_el: ref(null),
       dom_space_el: ref(null),
       dom_r_el: ref(null),
-      dom_p_el: ref(null),
-      dom_s_el: ref(null)
+      dom_p_el: ref(null)
     })
 
     watch(props, (newVal, _) => {
@@ -122,7 +112,6 @@ export default defineComponent({
     const labelDown = computed(() => i18n.down[lan])
     const labelDropSpace = computed(() => `${i18n.drop[lan]} (SPACE)`)
     const labelResetR = computed(() => `${i18n.reset[lan]}(R)`)
-    const labelSoundS = computed(() => `${i18n.sound[lan]}(S)`)
     const labelPauseP = computed(() => `${i18n.pause[lan]}(P)`)
     const labelStartS = computed(() => `${i18n.start[lan]}(S)`)
     
@@ -227,7 +216,6 @@ export default defineComponent({
       labelDown,
       labelDropSpace,
       labelResetR,
-      labelSoundS,
       labelPauseP,
       labelStartS,
       ...toRefs(doms)
