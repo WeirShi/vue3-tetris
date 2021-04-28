@@ -39,3 +39,7 @@ export const blockShape = {
 
 5. 对按钮同时绑定`touch`和`mouse`事件，并对事件进行保存，当触发`touch`事件时不会触发`mouse`事件，`mouse`事件当中监听了`mouseout`事件来模拟`mousedown`    
 源代码：[/src/components/keyboard/index.vue](https://github.com/WeirShi/vue3-tetris/blob/main/src/components/keyboard/index.vue)
+
+### 开发中遇到的问题
+- matrix组件中修改为`template`渲染，原作者项目在`vue`中使用了`jsx`语法，相较于`jsx`语法，`template`模板渲染时，需要手动判断`render`的时机。   
+- 在做一些动画的时候，将嵌套的回调函数重构为了`async/await`语法机制调用，简单了代码维护的力度 
