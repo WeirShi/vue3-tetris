@@ -27,13 +27,19 @@ export const blockType = Object.keys(blockShape)
 // 速度
 export const speeds = [800, 650, 500, 370, 250, 160]
 
+// 每消除eachLines行, 增加速度
+export const eachLines = 20
+
 // 延迟
 export const delays = [50, 60, 70, 80, 90, 100]
 
+// 一行填满的状态
 export const fillLine = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
 
+// 一行空的状态
 export const blankLine = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
+// 全空
 export const blankMatrix = (() => {
   const matrix = []
   for (let i = 0; i < 20; i++) {
@@ -42,8 +48,10 @@ export const blankMatrix = (() => {
   return matrix
 })()
 
+// 消除行后的分数
 export const clearPoints = [100, 300, 700, 1500]
 
+// 缓存key值
 export const StorageKey = 'VUE3_TETRIS'
 
 // 上一把的状态
@@ -67,6 +75,7 @@ export const lastRecord = (() => {
   return data
 })()
 
+// 最高分
 export const maxPoint = 999999
 
 export const transform = (function() {
@@ -81,15 +90,14 @@ export const transform = (function() {
   return trans.filter(e => body.style[e] !== undefined)[0]
 })()
 
-export const eachLines = 20 // 每消除eachLines行, 增加速度
-
+// 获取浏览器 ?后面的参数 如key=value
 export const getParam = param => {
-  // 获取浏览器参数
   const r = new RegExp(`\\?(?:.+&)?${param}=(.*?)(?:&.*)?$`)
   const m = window.location.toString().match(r)
   return m ? decodeURI(m[1]) : ''
 }
 
+// 读取语言状态
 export const lan = (() => {
   let l = getParam('lan').toLowerCase()
   if (!l && navigator.languages) {

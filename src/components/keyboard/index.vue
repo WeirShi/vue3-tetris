@@ -117,7 +117,8 @@ export default defineComponent({
     
     
     onMounted(() => {
-      const touchEventCatch = {} // 对于手机操作, 触发了touchstart, 将作出记录, 不再触发后面的mouse事件
+      // 对于手机操作, 触发了touchstart, 将作出记录, 不再触发后面的mouse事件
+      const touchEventCatch = {}
 
       // 在鼠标触发mousedown时, 移除元素时可以不触发mouseup, 这里做一个兼容, 以mouseout模拟mouseup
       const mouseDownEventCatch = {}
@@ -128,7 +129,7 @@ export default defineComponent({
             e.preventDefault()
           }
         },
-        {passive: false}
+        { passive: false }
       )
       document.addEventListener('touchend', (e) => {
         if (e.preventDefault) {

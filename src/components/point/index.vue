@@ -9,9 +9,9 @@
 import { watch, ref, onMounted } from 'vue';
 import Number from '../number/index.vue'
 import { i18n, lan } from '@/utils/constant'
-const DF = i18n.point[lan]
-const ZDF = i18n.highestScore[lan]
-const SLDF = i18n.lastRound[lan]
+const DF = i18n.point[lan] // 得分
+const ZDF = i18n.highestScore[lan] // 最高分
+const SLDF = i18n.lastRound[lan] // 上一把的得分
 
 let Point = {
   timeout: null

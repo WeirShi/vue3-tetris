@@ -111,7 +111,7 @@ export default {
       await sleep(150)
       isShow(null, false)
       await sleep(150)
-      isShow(dra(), true)
+      isShow(dra, true)
     }
 
     onBeforeMount(() => {

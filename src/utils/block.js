@@ -59,7 +59,7 @@ class Block {
       m.forEach((n, k) => {
         const index = m.length - k - 1
         if (result[index] === undefined) {
-          result[index]=[]
+          result[index] = []
         }
         
         result[index].push(n)
