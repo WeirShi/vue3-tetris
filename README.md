@@ -44,4 +44,3 @@ export const blockShape = {
 - matrix组件中修改为`template`渲染，原作者项目在`vue`中使用了`jsx`语法，相较于`jsx`语法，`template`模板渲染时，需要手动判断`render`的时机。   
 - 在做一些动画的时候，将嵌套的回调函数重构为了`async/await`语法机制调用，简单了代码维护的力度 
 
-### 新增GitHub 自动部署脚本
