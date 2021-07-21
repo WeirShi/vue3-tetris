@@ -10,5 +10,15 @@ export default defineConfig({
     alias: {
       '@': path.resolve(__dirname, 'src')
     }
+  },
+  build: {
+    rollupOptions: {
+      // 分离dist文件中的js，css
+      output: {
+        entryFileNames: 'js/[name]-[hash].js',
+        chunkFileNames: 'js/[name]-[hash].js',
+        assetFileNames: 'css/[name]-[hash].css'
+      }
+    }
   }
 })
